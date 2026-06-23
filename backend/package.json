@@ -1,0 +1,18 @@
+{
+  "name": "productvault-backend",
+  "version": "1.0.0",
+  "description": "Backend for ProductVault",
+  "main": "server.js",
+  "scripts": {
+    "migrate": "node setup-db.js",
+    "seed": "node seed.js",
+    "start": "node server.js"
+  },
+  "dependencies": {
+    "cors": "^2.8.6",
+    "dotenv": "^17.4.2",
+    "express": "^5.2.1",
+    "pg": "^8.22.0",
+    "pg-format": "^1.0.4"
+  }
+}

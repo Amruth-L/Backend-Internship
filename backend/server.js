@@ -11,9 +11,8 @@ const PORT = process.env.PORT || 3000;
 app.use(cors());
 app.use(express.json());
 
-const distPath = path.join(__dirname, '..', 'dist');
-const publicPath = path.join(__dirname, '..', 'public');
-const frontendPath = fs.existsSync(path.join(distPath, 'index.html')) ? distPath : publicPath;
+const distPath = path.join(__dirname, '..', 'frontend', 'dist');
+const frontendPath = distPath;
 
 app.use(express.static(frontendPath));
 
