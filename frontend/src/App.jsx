@@ -34,6 +34,7 @@ export default function App() {
   const [sortOption, setSortOption] = useState('newest');
   
   const [products, setProducts] = useState([]);
+  const [totalCount, setTotalCount] = useState(0);
   const [nextCursor, setNextCursor] = useState(null);
   const [hasMore, setHasMore] = useState(false);
   const [isLoading, setIsLoading] = useState(true);
@@ -87,6 +88,7 @@ export default function App() {
         setProducts(json.data || []);
         setNextCursor(json.pagination?.next_cursor || null);
         setHasMore(Boolean(json.pagination?.has_more));
+        setTotalCount(json.pagination?.total_count || 0);
       } catch (err) {
         if (err.name !== 'AbortError') {
           setError('Products could not be loaded. Please try again.');
@@ -154,7 +156,7 @@ export default function App() {
             <h1 className="text-xl font-bold tracking-tight text-slate-900">ProductVault</h1>
           </div>
           <div className="text-sm font-medium text-slate-500 bg-slate-100 px-3 py-1 rounded-full">
-            {isLoading ? 'Updating...' : `${products.length} Items`}
+            {isLoading ? 'Updating...' : `${totalCount.toLocaleString()} Items`}
           </div>
         </div>
       </header>

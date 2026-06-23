@@ -69,6 +69,12 @@ app.get('/api/products', async (req, res) => {
       paramIdx++;
     }
 
+    // Base query for total count (before adding cursor)
+    const baseWhereClause = conditions.length > 0 ? `WHERE ${conditions.join(' AND ')}` : '';
+    const countQuery = `SELECT COUNT(*) FROM products ${baseWhereClause}`;
+    const countResult = await db.query(countQuery, queryParams.slice(0, paramIdx - 1));
+    const totalCount = parseInt(countResult.rows[0].count, 10);
+
     // Cursor-based pagination condition
     if (cursor) {
       try {
@@ -123,7 +129,8 @@ app.get('/api/products', async (req, res) => {
       pagination: {
         next_cursor: nextCursor,
         has_more: hasNextPage,
-        count: data.length
+        count: data.length,
+        total_count: totalCount
       }
     });
 
