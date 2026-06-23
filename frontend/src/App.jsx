@@ -1,6 +1,8 @@
 import { useEffect, useState } from 'react';
 import { LoaderCircle, Package, Search, X } from 'lucide-react';
 
+const API_BASE_URL = import.meta.env.VITE_BACKEND_URL || '';
+
 function useDebouncedValue(value, delay = 350) {
   const [debouncedValue, setDebouncedValue] = useState(value);
   
@@ -43,7 +45,7 @@ export default function App() {
 
   // Fetch categories on mount
   useEffect(() => {
-    fetch('/api/categories')
+    fetch(`${API_BASE_URL}/api/categories`)
       .then((res) => res.json())
       .then((data) => {
         if (data.categories) {
@@ -77,7 +79,7 @@ export default function App() {
       params.set('sortOrder', sortOrder);
 
       try {
-        const response = await fetch(`/api/products?${params.toString()}`, {
+        const response = await fetch(`${API_BASE_URL}/api/products?${params.toString()}`, {
           signal: controller.signal
         });
         if (!response.ok) {
@@ -121,7 +123,7 @@ export default function App() {
     params.set('sortOrder', sortOrder);
 
     try {
-      const response = await fetch(`/api/products?${params.toString()}`);
+      const response = await fetch(`${API_BASE_URL}/api/products?${params.toString()}`);
       if (!response.ok) {
         throw new Error('Unable to load more products.');
       }
