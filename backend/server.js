@@ -41,6 +41,8 @@ app.get('/api/products', async (req, res) => {
     const cursor = req.query.cursor;
     const search = req.query.search || '';
     const category = req.query.category || '';
+    const minPrice = req.query.minPrice;
+    const maxPrice = req.query.maxPrice;
     const sortBy = req.query.sortBy || 'created_at';
     const sortOrder = req.query.sortOrder || 'desc';
 
@@ -66,6 +68,18 @@ app.get('/api/products', async (req, res) => {
     if (category.trim()) {
       conditions.push(`category = $${paramIdx}`);
       queryParams.push(category.trim());
+      paramIdx++;
+    }
+
+    if (minPrice) {
+      conditions.push(`price >= $${paramIdx}`);
+      queryParams.push(minPrice);
+      paramIdx++;
+    }
+
+    if (maxPrice) {
+      conditions.push(`price <= $${paramIdx}`);
+      queryParams.push(maxPrice);
       paramIdx++;
     }
 
